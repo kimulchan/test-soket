@@ -7,10 +7,14 @@ const App: React.FC = () => {
   const [messageList, setMessageList] = React.useState<Message[]>([]);
   const [name, setName] = React.useState('');
   const [value, setValue] = React.useState('');
-  const socket = socketIOClient('http://220.90.237.33:4300');
+  const socket = socketIOClient('http://220.90.237.33:4300',{
+    transports: ['websocket'],
+    jsonp: false}
+  );
   const submit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(name,value);
+    
     socket.emit('msgToServer', { name: name, text: value },(error:any)=>{
       console.log(error)
     });
